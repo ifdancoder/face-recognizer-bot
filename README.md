@@ -9,11 +9,12 @@ The Python service provides the following endpoints:
 - `POST /train` - Train the model with a new face
   - Parameters:
     - `name`: Name of the person
-    - `image`: Face image file
+    - `images`: Face image files
 - `POST /recognize` - Recognize faces in an image
   - Parameters:
-    - `image`: Image file containing faces
+    - `images`: Image files containing faces
 - `GET /known-faces` - Get list of all known faces
+- `POST /reset` - Reset saved faces in an image
 
 ### Setup Python Service
 
@@ -43,25 +44,6 @@ The Laravel backend will provide:
 - Database storage for face metadata
 - Web interface for managing faces
 
-### Setup Laravel
-
-1. Create a new Laravel project:
-```bash
-composer create-project laravel/laravel face-recognition-api
-```
-
-2. Configure your database in `.env`
-
-3. Run migrations:
-```bash
-php artisan migrate
-```
-
-4. Start the Laravel development server:
-```bash
-php artisan serve
-```
-
 ## API Documentation
 
 ### Python Service Endpoints
@@ -81,6 +63,11 @@ POST /recognize
 Content-Type: multipart/form-data
 
 image: file
+```
+
+#### Reset Faces
+```http
+POST /reset
 ```
 
 #### Get Known Faces
@@ -107,8 +94,3 @@ GET /known-faces
 - python-multipart
 - requests
 - python-dotenv
-
-### Laravel
-- PHP 8.1+
-- Composer
-- MySQL/PostgreSQL 
