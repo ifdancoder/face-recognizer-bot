@@ -176,12 +176,9 @@ async def get_known_faces():
 
 
 @app.post("/reset")
-async def reset_known_faces(confirm: bool = Form(..., description="Must be True to confirm reset")):
+async def reset_known_faces():
     """Reset all known faces data (clears the database)"""
     try:
-        if not confirm:
-            raise HTTPException(status_code=400, detail="Confirmation required to reset faces data")
-
         known_faces = {}
         save_known_faces(known_faces)
 
