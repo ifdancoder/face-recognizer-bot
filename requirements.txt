@@ -1,0 +1,10 @@
+setuptools
+face_recognition_models
+face-recognition
+numpy
+opencv-python
+fastapi
+uvicorn
+python-multipart
+requests
+python-dotenv
