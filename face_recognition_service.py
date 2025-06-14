@@ -174,5 +174,31 @@ async def get_known_faces():
         ]
     }
 
+
+@app.post("/reset")
+async def reset_known_faces(confirm: bool = Form(..., description="Must be True to confirm reset")):
+    """Reset all known faces data (clears the database)"""
+    try:
+        if not confirm:
+            raise HTTPException(status_code=400, detail="Confirmation required to reset faces data")
+
+        known_faces = {}
+        save_known_faces(known_faces)
+
+        if os.path.exists(KNOWN_FACES_DIR):
+            for filename in os.listdir(KNOWN_FACES_DIR):
+                file_path = os.path.join(KNOWN_FACES_DIR, filename)
+                try:
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                except Exception as e:
+                    print(f"Error deleting {file_path}: {e}")
+
+        return {"message": "Successfully reset all faces data", "remaining_encodings": 0}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000) 
